@@ -25,7 +25,11 @@ const ProductCard = ({ product }: IProps) => (
 
     <div className="flex items-center justify-between">
       <span>${product.price}</span>
-      <Image imageURL={product.imageURL} alt={product.title} className="w-10 h-10 rounded-full object-bottom" />
+      <Image
+        imageURL={product.category.imageURL}
+        alt={product.category.name}
+        className="w-10 h-10 rounded-full object-bottom"
+      />
     </div>
 
     <div className="flex items-center justify-between space-x-1 mt-5">
