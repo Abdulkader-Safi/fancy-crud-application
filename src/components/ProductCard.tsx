@@ -10,7 +10,7 @@ interface IProps {
 // eslint-disable-next-line no-empty-pattern
 const ProductCard = ({ product }: IProps) => (
   <div className="max-w-sm md:max-w-lg mx-auto border rounded-md p-2 flex flex-col">
-    <Image imageURL={product.imageURL} alt={product.title} className="rounded-md mb-2" />
+    <Image imageURL={product.imageURL} alt={product.title} className="rounded-md h-52 w-full lg:object-cover" />
 
     <h3>{product.title}</h3>
 
