@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import ProductCard from "./components/ProductCard";
 import Button from "./components/ui/Button";
 import Model from "./components/ui/Model";
@@ -7,8 +7,7 @@ import { formInputsList, productList } from "./data";
 import { IProduct } from "./interfaces";
 
 function App() {
-  /* ------ STATE ------ */
-  const [product, setProduct] = useState<IProduct>({
+  const defaultProductObj: IProduct = {
     title: "",
     description: "",
     imageURL: "",
@@ -18,12 +17,15 @@ function App() {
       name: "",
       imageURL: "",
     },
-  });
+  };
+
+  /* ------ STATE ------ */
+  const [product, setProduct] = useState<IProduct>(defaultProductObj);
   const [isOpen, setIsOpen] = useState(false);
 
   /* ------ HANDLER ------ */
-  const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
@@ -32,6 +34,16 @@ function App() {
       ...product,
       [name]: value,
     });
+  };
+
+  const submitHandler = (e: FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    console.log(product);
+  };
+
+  const onCancel = () => {
+    closeModal();
+    setProduct(defaultProductObj);
   };
 
   /* ------ RENDER ------ */
@@ -56,15 +68,17 @@ function App() {
       </div>
 
       <Model isOpen={isOpen} closeModel={closeModal} title="ADD A NEW PRODUCT">
-        <div className="space-y-2">
-          {renderFormInputList}{" "}
-          <form className="flex items-center justify-between space-x-3 mt-5">
-            <Button className="bg-indigo-700 hover:bg-indigo-800">Submit</Button>
-            <Button className="bg-gray-400 hover:bg-gray-500" onClick={closeModal}>
+        <form className="space-y-2" onSubmit={submitHandler}>
+          {renderFormInputList}
+          <div className="flex items-center justify-between space-x-3 mt-5">
+            <Button type="submit" className="bg-indigo-700 hover:bg-indigo-800">
+              Submit
+            </Button>
+            <Button type="button" className="bg-gray-400 hover:bg-gray-500" onClick={onCancel}>
               Cancel
             </Button>
-          </form>
-        </div>
+          </div>
+        </form>
       </Model>
     </main>
   );
