@@ -1,3 +1,6 @@
+/**
+ * Interface for defining the structure of product data for validation.
+ */
 interface productValidationType {
   title: string;
   description: string;
@@ -5,7 +8,13 @@ interface productValidationType {
   price: string;
 }
 
-export const productValidation = (product: productValidationType) => {
+/**
+ * Validates the product data based on specific criteria.
+ * @param {productValidationType} product - The product data to be validated.
+ * @returns {productValidationType} An object containing any errors in the product data, if any.
+ *          If the product data is valid, it returns an object with empty strings for all fields.
+ */
+export const productValidation = (product: productValidationType): productValidationType => {
   const errors: productValidationType = {
     title: "",
     description: "",
