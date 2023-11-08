@@ -36,14 +36,14 @@ function App() {
     });
   };
 
-  const submitHandler = (e: FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    console.log(product);
-  };
-
   const onCancel = () => {
     closeModal();
     setProduct(defaultProductObj);
+  };
+
+  const submitHandler = (e: FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    console.log(product);
   };
 
   /* ------ RENDER ------ */
