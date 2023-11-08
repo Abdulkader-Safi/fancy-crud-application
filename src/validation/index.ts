@@ -36,7 +36,7 @@ export const productValidation = (product: productValidationType): productValida
     errors.imageURL = "Valid Image URL is required!";
   }
 
-  if (!product.price.trim() || !isNaN(Number(product.price))) {
+  if (!product.price.trim() || isNaN(Number(product.price))) {
     errors.price = "Valid Price is required!";
   }
 

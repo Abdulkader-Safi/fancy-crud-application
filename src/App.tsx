@@ -5,6 +5,7 @@ import Model from "./components/ui/Model";
 import Input from "./components/ui/input";
 import { formInputsList, productList } from "./data";
 import { IProduct } from "./interfaces";
+import { productValidation } from "./validation";
 
 function App() {
   const defaultProductObj: IProduct = {
@@ -44,6 +45,14 @@ function App() {
   const submitHandler = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     console.log(product);
+    const errors = productValidation({
+      title: product.title,
+      description: product.description,
+      imageURL: product.imageURL,
+      price: product.price,
+    });
+
+    console.log(errors);
   };
 
   /* ------ RENDER ------ */
