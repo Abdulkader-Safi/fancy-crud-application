@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+import { v4 as uuid } from "uuid";
 import ProductCard from "./components/ProductCard";
 import Button from "./components/ui/Button";
 import CircleColor from "./components/ui/CircleColor";
@@ -30,12 +31,11 @@ function App() {
   };
 
   /* ------ STATE ------ */
+  const [products, setProducts] = useState<IProduct[]>(productList);
   const [product, setProduct] = useState<IProduct>(defaultProductObj);
   const [errorsMsgs, setErrorsMsgs] = useState(errorsMsg);
   const [tempColors, setTempColors] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-
-  console.log(tempColors);
 
   /* ------ HANDLER ------ */
   const openModal = () => setIsOpen(true);
@@ -80,11 +80,13 @@ function App() {
       return;
     }
 
-    console.log("Send this product to out server");
+    // console.log("Send this product to out server");
+    setProducts((prev) => [...prev, { ...product, id: uuid(), colors: tempColors }]);
+    closeModal();
   };
 
   /* ------ RENDER ------ */
-  const renderProductList = productList.map((product) => <ProductCard key={product.id} product={product} />);
+  const renderProductList = products.map((product) => <ProductCard key={product.id} product={product} />);
   const renderFormInputList = formInputsList.map((input) => (
     <div className="flex flex-col" key={input.id}>
       <label htmlFor={input.id} className="mb-[2px] text-sm font-medium text-gray-700">

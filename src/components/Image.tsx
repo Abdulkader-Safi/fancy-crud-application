@@ -6,7 +6,7 @@ interface IProps {
 
 // eslint-disable-next-line no-empty-pattern
 const Image = ({ imageURL, alt, className }: IProps) => {
-  return <img src={imageURL} alt={alt} className={className} />;
+  return <img src={imageURL} alt={alt} className={className} loading="lazy" />;
 };
 
 export default Image;
