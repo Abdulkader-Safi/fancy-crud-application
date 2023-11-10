@@ -82,7 +82,7 @@ function App() {
 
     // console.log("Send this product to out server");
     setProducts((prev) => [...prev, { ...product, id: uuid(), colors: tempColors }]);
-    closeModal();
+    onCancel();
   };
 
   /* ------ RENDER ------ */
