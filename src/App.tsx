@@ -1,10 +1,11 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import ProductCard from "./components/ProductCard";
 import Button from "./components/ui/Button";
+import CircleColor from "./components/ui/CircleColor";
 import ErrorMessage from "./components/ui/ErrorMessage";
 import Model from "./components/ui/Model";
 import Input from "./components/ui/input";
-import { formInputsList, productList } from "./data";
+import { colors, formInputsList, productList } from "./data";
 import { IProduct } from "./interfaces";
 import { productValidation } from "./validation";
 
@@ -31,7 +32,10 @@ function App() {
   /* ------ STATE ------ */
   const [product, setProduct] = useState<IProduct>(defaultProductObj);
   const [errorsMsgs, setErrorsMsgs] = useState(errorsMsg);
+  const [tempColors, setTempColors] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+
+  console.log(tempColors);
 
   /* ------ HANDLER ------ */
   const openModal = () => setIsOpen(true);
@@ -55,6 +59,7 @@ function App() {
     closeModal();
     setProduct(defaultProductObj);
     setErrorsMsgs(errorsMsg);
+    setTempColors([]);
   };
 
   const submitHandler = (e: FormEvent<HTMLFormElement>): void => {
@@ -89,6 +94,19 @@ function App() {
       <ErrorMessage msg={errorsMsgs[input.name]} />
     </div>
   ));
+  const renderProductColors = colors.map((color) => (
+    <CircleColor
+      key={color}
+      color={color}
+      onClick={() => {
+        if (tempColors.includes(color)) {
+          setTempColors((prev) => prev.filter((item) => item !== color));
+          return;
+        }
+        setTempColors((prev) => [...prev, color]);
+      }}
+    />
+  ));
 
   return (
     <main className="container w-2x">
@@ -103,6 +121,25 @@ function App() {
       <Model isOpen={isOpen} closeModel={closeModal} title="ADD A NEW PRODUCT">
         <form className="space-y-2" onSubmit={submitHandler}>
           {renderFormInputList}
+
+          <div className="flex items-center flex-wrap space-x-1">
+            {tempColors.map((color) => (
+              <span
+                key={color}
+                className="p-1 mr-1 mb-1 text-xs rounded-md text-white cursor-pointer"
+                style={{ backgroundColor: color }}
+                onClick={() => {
+                  if (tempColors.includes(color)) {
+                    setTempColors((prev) => prev.filter((item) => item !== color));
+                  }
+                }}
+              >
+                {color}
+              </span>
+            ))}
+          </div>
+          <div className="flex items-center flex-wrap space-x-1">{renderProductColors}</div>
+
           <div className="flex items-center justify-between space-x-3 mt-5">
             <Button type="submit" className="bg-indigo-700 hover:bg-indigo-800">
               Submit
