@@ -8,7 +8,6 @@ interface IProps {
   children: ReactNode;
 }
 
-// eslint-disable-next-line no-empty-pattern
 const Model = ({ isOpen, closeModel, title, children }: IProps) => {
   return (
     <>

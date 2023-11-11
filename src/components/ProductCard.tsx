@@ -8,7 +8,6 @@ interface IProps {
   product: IProduct;
 }
 
-// eslint-disable-next-line no-empty-pattern
 const ProductCard = ({ product }: IProps) => {
   /* ------ RENDER ------ */
   const renderProductColors = product.colors.map((color) => <CircleColor key={color} color={color} />);

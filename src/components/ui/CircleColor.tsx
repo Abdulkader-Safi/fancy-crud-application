@@ -4,7 +4,6 @@ interface IProps extends HTMLAttributes<HTMLSpanElement> {
   color: string;
 }
 
-// eslint-disable-next-line no-empty-pattern
 const CircleColor = ({ color, ...rest }: IProps) => {
   return (
     <span className={`block mb-1 w-5 h-5 rounded-full cursor-pointer`} style={{ backgroundColor: color }} {...rest} />

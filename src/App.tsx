@@ -7,8 +7,8 @@ import ErrorMessage from "./components/ui/ErrorMessage";
 import Model from "./components/ui/Model";
 import Select from "./components/ui/Select";
 import Input from "./components/ui/input";
-import { colors, formInputsList, productList } from "./data";
-import { IProduct } from "./interfaces";
+import { categories, colors, formInputsList, productList } from "./data";
+import { ICategory, IProduct } from "./interfaces";
 import { productValidation } from "./validation";
 
 function App() {
@@ -34,6 +34,7 @@ function App() {
   /* ------ STATE ------ */
   const [products, setProducts] = useState<IProduct[]>(productList);
   const [product, setProduct] = useState<IProduct>(defaultProductObj);
+  const [selectedCategory, setSelectedCategory] = useState<ICategory>(categories[0]);
   const [errorsMsgs, setErrorsMsgs] = useState(errorsMsg);
   const [tempColors, setTempColors] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -61,6 +62,7 @@ function App() {
     setProduct(defaultProductObj);
     setErrorsMsgs(errorsMsg);
     setTempColors([]);
+    setSelectedCategory(categories[0]);
   };
 
   const submitHandler = (e: FormEvent<HTMLFormElement>): void => {
@@ -125,7 +127,7 @@ function App() {
         <form className="space-y-2" onSubmit={submitHandler}>
           {renderFormInputList}
 
-          <Select />
+          <Select selected={selectedCategory} setSelected={(category: ICategory) => setSelectedCategory(category)} />
 
           <div className="flex items-center flex-wrap space-x-1">
             {tempColors.map((color) => (

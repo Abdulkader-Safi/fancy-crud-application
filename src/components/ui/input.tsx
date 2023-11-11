@@ -2,7 +2,6 @@ import { InputHTMLAttributes } from "react";
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {}
 
-// eslint-disable-next-line no-empty-pattern
 const input = ({ ...rest }: IProps) => {
   return (
     <input
