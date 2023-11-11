@@ -10,9 +10,17 @@ interface IProps {
   openEditProductModel: () => void;
   idx: number;
   setProductToEditIdx: (value: number) => void;
+  openDeleteProductModel: () => void;
 }
 
-const ProductCard = ({ product, setProductToEdit, openEditProductModel, idx, setProductToEditIdx }: IProps) => {
+const ProductCard = ({
+  product,
+  setProductToEdit,
+  openEditProductModel,
+  idx,
+  setProductToEditIdx,
+  openDeleteProductModel,
+}: IProps) => {
   /* ------ RENDER ------ */
   const renderProductColors = product.colors.map((color) => <CircleColor key={color} color={color} />);
 
@@ -21,6 +29,11 @@ const ProductCard = ({ product, setProductToEdit, openEditProductModel, idx, set
     setProductToEdit(product);
     openEditProductModel();
     setProductToEditIdx(idx);
+  };
+
+  const onRemove = () => {
+    setProductToEdit(product);
+    openDeleteProductModel();
   };
 
   return (
@@ -48,7 +61,9 @@ const ProductCard = ({ product, setProductToEdit, openEditProductModel, idx, set
         <Button className="bg-indigo-700 hover:bg-indigo-800" onClick={onEdit}>
           Edit
         </Button>
-        <Button className="bg-red-700 hover:bg-red-800">Destroy</Button>
+        <Button className="bg-red-700 hover:bg-red-800" onClick={onRemove}>
+          Destroy
+        </Button>
       </div>
     </div>
   );

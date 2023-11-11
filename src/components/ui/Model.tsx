@@ -5,10 +5,12 @@ interface IProps {
   isOpen: boolean;
   closeModel: () => void;
   title?: string;
+  description?: string;
+
   children: ReactNode;
 }
 
-const Model = ({ isOpen, closeModel, title, children }: IProps) => {
+const Model = ({ isOpen, closeModel, title, description, children }: IProps) => {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -42,6 +44,7 @@ const Model = ({ isOpen, closeModel, title, children }: IProps) => {
                       {title}
                     </Dialog.Title>
                   )}
+                  {description && <p className="text-sm text-gray-500 mt-3">{description}</p>}
 
                   <div className="mt-4">{children}</div>
                 </Dialog.Panel>

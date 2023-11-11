@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { v4 as uuid } from "uuid";
 import CircleColor from "./components/CircleColor";
 import ErrorMessage from "./components/ErrorMessage";
@@ -42,12 +43,15 @@ function App() {
   const [tempColors, setTempColors] = useState<string[]>([]);
   const [isOpenCreateProductModel, setIsOpenCreateProductModel] = useState(false);
   const [isOpenEditProductModel, setIsOpenEditProductModel] = useState(false);
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
 
   /* ------ HANDLER ------ */
   const openCreateProductModel = () => setIsOpenCreateProductModel(true);
   const closeCreateProductModel = () => setIsOpenCreateProductModel(false);
   const openEditProductModel = () => setIsOpenEditProductModel(true);
   const closeEditProductModel = () => setIsOpenEditProductModel(false);
+  const openDeleteProductModel = () => setIsOpenConfirmModal(true);
+  const closeDeleteProductModel = () => setIsOpenConfirmModal(false);
 
   const onChangeCreateProductHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
@@ -107,6 +111,14 @@ function App() {
     // console.log("Send this product to out server");
     setProducts((prev) => [{ ...product, id: uuid(), colors: tempColors, category: selectedCategory }, ...prev]);
     onCancelCreateProductModel();
+
+    toast("Product has been added successfully!", {
+      icon: "👏",
+      style: {
+        backgroundColor: "black",
+        color: "white",
+      },
+    });
   };
 
   const submitEditProductHandler = (e: FormEvent<HTMLFormElement>): void => {
@@ -136,13 +148,26 @@ function App() {
     setTempColors([]);
     closeEditProductModel();
 
-    // toast("Product has been updated successfully!", {
-    //   icon: "👏",
-    //   style: {
-    //     backgroundColor: "black",
-    //     color: "white",
-    //   },
-    // });
+    toast("Product has been updated successfully!", {
+      icon: "👏",
+      style: {
+        backgroundColor: "black",
+        color: "white",
+      },
+    });
+  };
+
+  const submitRemoveProductHandler = () => {
+    const filtered = products.filter((product) => product.id !== productToEdit.id);
+    setProducts(filtered);
+    closeDeleteProductModel();
+    toast("Product has been deleted successfully!", {
+      icon: "👏",
+      style: {
+        backgroundColor: "#c2344d",
+        color: "white",
+      },
+    });
   };
 
   /* ------ RENDER ------ */
@@ -154,6 +179,7 @@ function App() {
       idx={idx}
       setProductToEditIdx={setProductToEditIdx}
       openEditProductModel={openEditProductModel}
+      openDeleteProductModel={openDeleteProductModel}
     />
   ));
   const renderFormInputList = formInputsList.map((input) => (
@@ -275,6 +301,29 @@ function App() {
           </div>
         </form>
       </Model>
+
+      {/* DELETE PRODUCT CONFIRM MODAL */}
+      <Model
+        isOpen={isOpenConfirmModal}
+        closeModel={closeDeleteProductModel}
+        title="Are you sure you want to remove this Product from your Store?"
+        description="Deleting this product will remove it permanently from your inventory. Any associated data, sales history, and other related information will also be deleted. Please make sure this is the intended action."
+      >
+        <div className="flex items-center space-x-3">
+          <Button className="bg-[#c2344d] hover:bg-red-800" onClick={submitRemoveProductHandler}>
+            Yes, remove
+          </Button>
+          <Button
+            type="button"
+            className="bg-[#f5f5fa] hover:bg-gray-300 !text-black"
+            onClick={closeDeleteProductModel}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Model>
+
+      <Toaster />
     </main>
   );
 }
