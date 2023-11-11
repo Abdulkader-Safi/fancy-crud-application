@@ -34,14 +34,18 @@ function App() {
   /* ------ STATE ------ */
   const [products, setProducts] = useState<IProduct[]>(productList);
   const [product, setProduct] = useState<IProduct>(defaultProductObj);
+  const [productToEdit, setProductToEdit] = useState<IProduct>(defaultProductObj);
   const [selectedCategory, setSelectedCategory] = useState<ICategory>(categories[0]);
   const [errorsMsgs, setErrorsMsgs] = useState(errorsMsg);
   const [tempColors, setTempColors] = useState<string[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenCreateProductModel, setIsOpenCreateProductModel] = useState(false);
+  const [isOpenEditProductModel, setIsOpenEditProductModel] = useState(false);
 
   /* ------ HANDLER ------ */
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+  const openCreateProductModel = () => setIsOpenCreateProductModel(true);
+  const closeCreateProductModel = () => setIsOpenCreateProductModel(false);
+  const openEditProductModel = () => setIsOpenEditProductModel(true);
+  const closeEditProductModel = () => setIsOpenEditProductModel(false);
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
@@ -57,12 +61,13 @@ function App() {
     });
   };
 
-  const onCancel = () => {
-    closeModal();
+  const onCancelCreateProductModel = () => {
+    closeCreateProductModel();
     setProduct(defaultProductObj);
     setErrorsMsgs(errorsMsg);
     setTempColors([]);
     setSelectedCategory(categories[0]);
+    setProductToEdit(defaultProductObj);
   };
 
   const submitHandler = (e: FormEvent<HTMLFormElement>): void => {
@@ -85,11 +90,18 @@ function App() {
 
     // console.log("Send this product to out server");
     setProducts((prev) => [{ ...product, id: uuid(), colors: tempColors, category: selectedCategory }, ...prev]);
-    onCancel();
+    onCancelCreateProductModel();
   };
 
   /* ------ RENDER ------ */
-  const renderProductList = products.map((product) => <ProductCard key={product.id} product={product} />);
+  const renderProductList = products.map((product) => (
+    <ProductCard
+      key={product.id}
+      product={product}
+      setProductToEdit={setProductToEdit}
+      openEditProductModel={openEditProductModel}
+    />
+  ));
   const renderFormInputList = formInputsList.map((input) => (
     <div className="flex flex-col" key={input.id}>
       <label htmlFor={input.id} className="mb-[2px] text-sm font-medium text-gray-700">
@@ -115,15 +127,14 @@ function App() {
 
   return (
     <main className="container w-2x">
-      <Button className="bg-indigo-700 hover:bg-indigo-800" onClick={openModal}>
+      <Button className="bg-indigo-700 hover:bg-indigo-800" onClick={openCreateProductModel}>
         Add
       </Button>
-
       <div className="m-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-4 p-2 rounded-md">
         {renderProductList}
       </div>
-
-      <Model isOpen={isOpen} closeModel={closeModal} title="ADD A NEW PRODUCT">
+      {/* Create Product Model */}
+      <Model isOpen={isOpenCreateProductModel} closeModel={closeCreateProductModel} title="ADD A NEW PRODUCT">
         <form className="space-y-2" onSubmit={submitHandler}>
           {renderFormInputList}
 
@@ -151,7 +162,42 @@ function App() {
             <Button type="submit" className="bg-indigo-700 hover:bg-indigo-800">
               Submit
             </Button>
-            <Button type="button" className="bg-gray-400 hover:bg-gray-500" onClick={onCancel}>
+            <Button type="button" className="bg-gray-400 hover:bg-gray-500" onClick={onCancelCreateProductModel}>
+              Cancel
+            </Button>
+          </div>
+        </form>
+      </Model>
+      {/* Edit Product Model */}
+      <Model isOpen={isOpenEditProductModel} closeModel={closeEditProductModel} title={`Edit ${productToEdit.title}`}>
+        <form className="space-y-2" onSubmit={submitHandler}>
+          {renderFormInputList}
+
+          <Select selected={selectedCategory} setSelected={(category: ICategory) => setSelectedCategory(category)} />
+
+          <div className="flex items-center flex-wrap space-x-1">
+            {tempColors.map((color) => (
+              <span
+                key={color}
+                className="p-1 mr-1 mb-1 text-xs rounded-md text-white cursor-pointer"
+                style={{ backgroundColor: color }}
+                onClick={() => {
+                  if (tempColors.includes(color)) {
+                    setTempColors((prev) => prev.filter((item) => item !== color));
+                  }
+                }}
+              >
+                {color}
+              </span>
+            ))}
+          </div>
+          <div className="flex items-center flex-wrap space-x-1">{renderProductColors}</div>
+
+          <div className="flex items-center justify-between space-x-3 mt-5">
+            <Button type="submit" className="bg-indigo-700 hover:bg-indigo-800">
+              Submit
+            </Button>
+            <Button type="button" className="bg-gray-400 hover:bg-gray-500" onClick={closeEditProductModel}>
               Cancel
             </Button>
           </div>
