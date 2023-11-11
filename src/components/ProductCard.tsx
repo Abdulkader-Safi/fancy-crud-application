@@ -1,16 +1,18 @@
 import { IProduct } from "../interfaces";
 import { txtSlicer } from "../utils/functions";
+import CircleColor from "./CircleColor";
 import Image from "./Image";
 import Button from "./ui/Button";
-import CircleColor from "./ui/CircleColor";
 
 interface IProps {
   product: IProduct;
   setProductToEdit: (product: IProduct) => void;
   openEditProductModel: () => void;
+  idx: number;
+  setProductToEditIdx: (value: number) => void;
 }
 
-const ProductCard = ({ product, setProductToEdit, openEditProductModel }: IProps) => {
+const ProductCard = ({ product, setProductToEdit, openEditProductModel, idx, setProductToEditIdx }: IProps) => {
   /* ------ RENDER ------ */
   const renderProductColors = product.colors.map((color) => <CircleColor key={color} color={color} />);
 
@@ -18,6 +20,7 @@ const ProductCard = ({ product, setProductToEdit, openEditProductModel }: IProps
   const onEdit = () => {
     setProductToEdit(product);
     openEditProductModel();
+    setProductToEditIdx(idx);
   };
 
   return (
