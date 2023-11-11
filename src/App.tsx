@@ -5,6 +5,7 @@ import Button from "./components/ui/Button";
 import CircleColor from "./components/ui/CircleColor";
 import ErrorMessage from "./components/ui/ErrorMessage";
 import Model from "./components/ui/Model";
+import Select from "./components/ui/Select";
 import Input from "./components/ui/input";
 import { colors, formInputsList, productList } from "./data";
 import { IProduct } from "./interfaces";
@@ -123,6 +124,8 @@ function App() {
       <Model isOpen={isOpen} closeModel={closeModal} title="ADD A NEW PRODUCT">
         <form className="space-y-2" onSubmit={submitHandler}>
           {renderFormInputList}
+
+          <Select />
 
           <div className="flex items-center flex-wrap space-x-1">
             {tempColors.map((color) => (
