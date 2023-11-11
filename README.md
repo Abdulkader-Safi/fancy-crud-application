@@ -12,6 +12,10 @@ this project where built to be a reference when I need help in TypeScript, React
 8. Adherence to Best Practices
 9. Scalable
 
-| Home                               | Add New Product Model                              |
+| Home                               | Add New Product                                    |
 | ---------------------------------- | -------------------------------------------------- |
 | ![Image 1](public/Home%20Page.png) | ![Image 2](public/Add%20New%20Product%20Model.png) |
+
+| Edit Product                            | Delete Product                          |
+| --------------------------------------- | --------------------------------------- |
+| ![Image 1](public/Update%20Product.png) | ![Image 2](public/Delete%20Product.png) |
