@@ -227,9 +227,11 @@ function App() {
       <Button className="bg-indigo-700 hover:bg-indigo-800" onClick={openCreateProductModel}>
         Add
       </Button>
+
       <div className="m-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-4 p-2 rounded-md">
         {renderProductList}
       </div>
+
       {/* Create Product Model */}
       <Model isOpen={isOpenCreateProductModel} closeModel={closeCreateProductModel} title="ADD A NEW PRODUCT">
         <form className="space-y-2" onSubmit={submitCreateProductHandler}>
@@ -265,6 +267,7 @@ function App() {
           </div>
         </form>
       </Model>
+
       {/* Edit Product Model */}
       <Model isOpen={isOpenEditProductModel} closeModel={closeEditProductModel} title={`Edit ${productToEdit.title}`}>
         <form className="space-y-2" onSubmit={submitEditProductHandler}>
