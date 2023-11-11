@@ -84,7 +84,7 @@ function App() {
     }
 
     // console.log("Send this product to out server");
-    setProducts((prev) => [{ ...product, id: uuid(), colors: tempColors }, ...prev]);
+    setProducts((prev) => [{ ...product, id: uuid(), colors: tempColors, category: selectedCategory }, ...prev]);
     onCancel();
   };
 
